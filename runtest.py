@@ -89,10 +89,17 @@ print('0,0,100,0,100,0')
 
 step = 1
 # if step=5, this is: [5, 10, 15, ... nr_cores]
-data_points = list(range(step, nr_cores+step, step))
-# this makes it [ 1, 5, 10, ... ]
-if step > 1:
-	data_points.insert(0, 1)
+# data_points = list(range(step, nr_cores+step, step))
+# # this makes it [ 1, 5, 10, ... ]
+# if step > 1:
+# 	data_points.insert(0, 1)
+
+# Ojaswin: For our scale up testing better to test at power-of-2 cores
+# since using a step is too fine grained
+
+start = 16
+# Generate a list of powers of 2 starting from 16 up to nr_cores
+data_points = [2**i for i in range(int.bit_length(start)-1, int.bit_length(nr_cores)) if 2**i <= nr_cores]
 
 for i in data_points:
 	c = './%s_processes -t %d -s %d' % (cmd, i, duration)
