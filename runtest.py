@@ -100,6 +100,8 @@ step = 1
 start = 16
 # Generate a list of powers of 2 starting from 16 up to nr_cores
 data_points = [2**i for i in range(int.bit_length(start)-1, int.bit_length(nr_cores)) if 2**i <= nr_cores]
+if start > 1:
+	data_points.insert(0, 1)
 
 for i in data_points:
 	c = './%s_processes -t %d -s %d' % (cmd, i, duration)
